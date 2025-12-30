@@ -1,5 +1,5 @@
 {
-  "name": "n8n-nodes-richpanel",
+  "name": "richpanel-n8n",
   "version": "1.0.0",
   "description": "n8n community node for Richpanel customer support platform - manage conversations, customers, orders, and subscriptions",
   "keywords": [
@@ -15,17 +15,17 @@
     "api-integration"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/TristanJones02/n8n-nodes-richpanel#readme",
+  "homepage": "https://github.com/TristanJones02/richpanel-n8n#readme",
   "author": {
     "name": "Tristan Jones",
     "email": "tristan@petfresh.com.au"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/TristanJones02/n8n-nodes-richpanel.git"
+    "url": "git+https://github.com/TristanJones02/richpanel-n8n.git"
   },
   "bugs": {
-    "url": "https://github.com/TristanJones02/n8n-nodes-richpanel/issues"
+    "url": "https://github.com/TristanJones02/richpanel-n8n/issues"
   },
   "main": "index.js",
   "engines": {
