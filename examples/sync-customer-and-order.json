@@ -1,0 +1,140 @@
+{
+  "name": "Sync Customer and Order to Richpanel",
+  "nodes": [
+    {
+      "parameters": {},
+      "name": "When clicking 'Test workflow'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "customerId",
+              "value": "user123"
+            },
+            {
+              "name": "customerEmail",
+              "value": "jane.smith@example.com"
+            },
+            {
+              "name": "firstName",
+              "value": "Jane"
+            },
+            {
+              "name": "lastName",
+              "value": "Smith"
+            },
+            {
+              "name": "phone",
+              "value": "+1234567890"
+            },
+            {
+              "name": "orderId",
+              "value": "ORDER-2024-001"
+            }
+          ],
+          "number": [
+            {
+              "name": "orderAmount",
+              "value": 249.99
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Sample Data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [470, 300]
+    },
+    {
+      "parameters": {
+        "resource": "customer",
+        "operation": "upsert",
+        "customerFields": {
+          "uid": "={{$json.customerId}}",
+          "firstName": "={{$json.firstName}}",
+          "lastName": "={{$json.lastName}}",
+          "email": "={{$json.customerEmail}}",
+          "phone": "={{$json.phone}}",
+          "city": "San Francisco",
+          "country": "USA"
+        }
+      },
+      "name": "Create Customer",
+      "type": "n8n-nodes-richpanel.richpanel",
+      "typeVersion": 1,
+      "position": [690, 200],
+      "credentials": {
+        "richpanelApi": {
+          "id": "1",
+          "name": "Richpanel API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "order",
+        "operation": "upsert",
+        "appClientId": "your-api-key",
+        "orderId": "={{$json.orderId}}",
+        "amount": "={{$json.orderAmount}}",
+        "userUid": "={{$json.customerId}}",
+        "items": "[{\"id\": \"PROD-001\", \"price\": 249.99, \"name\": \"Premium Product\", \"quantity\": 1}]",
+        "orderFields": {
+          "currency": "USD",
+          "status": "processing",
+          "fulfillmentStatus": "unfulfilled",
+          "userEmail": "={{$json.customerEmail}}",
+          "userFirstName": "={{$json.firstName}}",
+          "userLastName": "={{$json.lastName}}"
+        }
+      },
+      "name": "Create Order",
+      "type": "n8n-nodes-richpanel.richpanel",
+      "typeVersion": 1,
+      "position": [690, 400],
+      "credentials": {
+        "richpanelApi": {
+          "id": "1",
+          "name": "Richpanel API"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When clicking 'Test workflow'": {
+      "main": [
+        [
+          {
+            "node": "Sample Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sample Data": {
+      "main": [
+        [
+          {
+            "node": "Create Customer",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Create Order",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {},
+  "staticData": null
+}

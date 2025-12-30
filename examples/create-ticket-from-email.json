@@ -1,0 +1,54 @@
+{
+  "name": "Create Richpanel Ticket from Email",
+  "nodes": [
+    {
+      "parameters": {},
+      "name": "When clicking 'Test workflow'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "resource": "conversation",
+        "operation": "create",
+        "messageBody": "Customer is asking about their order status for order #12345",
+        "channel": "email",
+        "from": "customer@example.com",
+        "to": "support@mycompany.com",
+        "additionalFields": {
+          "status": "OPEN",
+          "priority": "HIGH",
+          "subject": "Order Status Inquiry - #12345",
+          "customerFirstName": "John",
+          "customerLastName": "Doe"
+        }
+      },
+      "name": "Create Richpanel Ticket",
+      "type": "n8n-nodes-richpanel.richpanel",
+      "typeVersion": 1,
+      "position": [470, 300],
+      "credentials": {
+        "richpanelApi": {
+          "id": "1",
+          "name": "Richpanel API"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When clicking 'Test workflow'": {
+      "main": [
+        [
+          {
+            "node": "Create Richpanel Ticket",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {},
+  "staticData": null
+}
